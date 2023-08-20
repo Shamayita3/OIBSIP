@@ -1,0 +1,30 @@
+import java.util.Scanner;
+import java.lang.Math;
+public class Numberguessinggame{
+    public static void main(String[] args){
+        int ans = (int) (Math.random() * 100) + 1;
+        int a = 7;
+        Scanner sc = new Scanner(System.in);
+        boolean correct = false ;
+        System.out.println("i am thinking of a number between 1 to 100 !\n You have only 7 trials .");
+        while(a>0){
+            System.out.println("ENTER YOUR GUESS: ");
+            int g = sc.nextInt();
+            if(g == ans){
+                System.out.println("CONGRATS!! You have guess the number !\n YOU WIN");
+                break;
+            }
+            else if ( g > ans){
+                System.out.println("SORRY!! Your guess is too high.\n You have  " + (a-1)+"TRIALS Left.");
+            }
+            else{
+                System.out.println("SORRY !! Your guess is too low . \n You have " +(a-1)+"TRIALS left .");
+            }
+            a--;
+        }
+        if( correct == false){
+            System.out.println("You ran out of tries . \n YOU LOSE!");
+        }
+
+    }
+}
