@@ -1,0 +1,99 @@
+import java.util.Scanner;
+public class ATMinterface {
+    private int bal;
+    private int pincode;
+    public ATMinterface (int initialbal  , int pincode){
+        this.bal = initialbal ;
+        this.pincode = pincode;
+
+    }
+    public int getbal(){
+        return this.bal;
+    }
+    public boolean withdraw(int am , int pin){
+        if(pin != this.pincode){
+            return false ;
+        }
+        if(am > this.bal){
+            return false;
+        }
+        this.bal -= am;
+        return true;
+    }
+    public void deposit(int am){
+        this.bal += am;
+    }
+    public boolean transfer(int am , ATMinterface rec , int pin){
+        if(pin != this.pincode){
+            return false;
+        }
+        boolean success = this.withdraw(am,pin);
+        if(success){
+            rec.deposit(am);
+            return true;
+        }
+        else{
+            return false ;
+        }
+
+    }
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        ATMinterface atm = new ATMinterface(10000,1234);
+        while(true){
+            System.out.println("WELCOME!!");
+            System.out.println("1. TRANSACTION HISTORY");
+            System.out.println("2. WITHDRAW");
+            System.out.println("3. DEPOSIT");
+            System.out.println("4. TRANSFER");
+            System.out.println("5. EXIT");
+            System.out.println("ENTER YOUR CHOICE");
+            int ch = sc.nextInt();
+            switch(ch){
+                case 1:
+                System.out.println("YOUR BALANCE IS : " +atm.getbal());
+                break;
+                case 2:
+                System.out.println("ENTER THE AMOUNT YOU WANT TO WITHDRAW :");
+                int withdrawam  = sc.nextInt();
+                boolean success = atm.withdraw(withdrawam ,1234);
+                if(success){
+                    System.out.println("WITHDRAWN IS SUCCESSFULL!");
+
+                }
+                else{
+                    System.out.println("INSUFFICIENT BALANCE!");
+                }
+                break;
+                case 3:
+                System.out.println("ENTER THE AMOUNT YOU WANT TO DEPOSIT");
+                int depositam = sc.nextInt();
+                atm.deposit(depositam);
+                System.out.println("DEPOSIT SUCCESSFULL !!");
+                break;
+                case 4:
+                System.out.println("ENTER THE AMOUNT YOU WANT TO TRANSFER");
+                int transferam = sc.nextInt();
+                System.out.println("ENTER THE RECEIVER PIN CODE");
+                int recpin = sc.nextInt();
+                ATMinterface rec = new ATMinterface(0,recpin);
+                boolean transfersuccess = atm.transfer(transferam , rec , recpin);
+                if(transfersuccess){
+                    System.out.println("TRANSFER IS SUCCESSFULL!");
+                }
+                else{
+                    System.out.println("INVALID PIN OR INSUFFICIENT BALANCE");
+                }
+                case 5:
+                System.out.println("THANKS FOR USING ATM!!");
+                System.exit(0);
+                break;
+                default:
+                System.out.println("WRONG CHOICE");
+            }
+        }
+
+    }
+
+
+}
